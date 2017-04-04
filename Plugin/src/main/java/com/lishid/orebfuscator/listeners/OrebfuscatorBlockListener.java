@@ -26,6 +26,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 
+import org.bukkit.block.Block;
 import com.lishid.orebfuscator.DeprecatedMethods;
 import com.lishid.orebfuscator.Orebfuscator;
 import com.lishid.orebfuscator.hithack.BlockHitManager;
@@ -35,8 +36,18 @@ public class OrebfuscatorBlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-        BlockUpdate.update(event.getBlock());
-        BlockHitManager.breakBlock(event.getPlayer(), event.getBlock());
+        /** MODIFIED 2 **/
+    	Block block = event.getBlock();
+        Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX()+1, block.getY(), block.getZ()));
+           Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX()-1, block.getY(), block.getZ()));
+           Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX(), block.getY()+1, block.getZ()));
+           Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX(), block.getY()-1, block.getZ()));
+           Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX(), block.getY(), block.getZ()+1));
+           Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX(), block.getY(), block.getZ()-1));
+           BlockHitManager.breakBlock(event.getPlayer(), block);
+        // BlockUpdate.update(event.getBlock());
+        /** MODIFIED 2 **/
+        // BlockHitManager.breakBlock(event.getPlayer(), event.getBlock());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -52,8 +63,11 @@ public class OrebfuscatorBlockListener implements Listener {
         if (!BlockHitManager.hitBlock(event.getPlayer(), event.getBlock())) {
             return;
         }
-
-        BlockUpdate.update(event.getBlock());
+        /** MODIFIED 3 **/
+        Block block = event.getBlock();
+        Orebfuscator.nms.notifyBlockChange(event.getPlayer().getWorld(), Orebfuscator.nms.getBlockInfo(event.getPlayer().getWorld(), block.getX(), block.getY(), block.getZ()));
+        /** MODIFIED 3 **/
+        //BlockUpdate.update(event.getBlock());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

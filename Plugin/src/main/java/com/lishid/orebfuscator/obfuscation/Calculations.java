@@ -173,6 +173,9 @@ public class Calculations {
 	                        }
 	
 	                        // Check if the block is obfuscated
+	                        /** MODIFIED **/
+	                        if(blockState.id == 5 && blockState.meta > 0 && blockState.meta < 5){obfuscate=false;}
+	                        /** MODIFIED **/
 	                        if (obfuscate) {
 	                            if (specialObfuscate) {
 	                                // Proximity hider
